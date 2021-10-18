@@ -1,0 +1,43 @@
+<div>
+  <img src="./assets/login-background.jpeg"
+       style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; z-index: -1" alt="">
+  <div>
+    <div style="width: 420px; height: 320px; max-height: 320px; min-height: 320px; border-radius: 8px;
+      background-color: #ffffff; box-shadow: 0 3px 18px rgba(100, 0, 0, 1); font-size: 16px;
+      float: right; margin: 200px 200px 0 0">
+      <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title" style="margin: 0 5px 0 5px">
+        </ul>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">
+            <form class="layui-form">
+              <div class="layui-form-item" style="margin-top: 30px">
+                <label class="layui-form-label"><i class="layui-icon layui-icon-username"
+                                                   style="font-size: 24px"></i></label>
+                <div class="layui-input-inline">
+                  <input type="text" name="username" class="layui-input" placeholder="Enter your account"
+                         autocomplete="off" [(ngModel)]="username">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label"><i class="layui-icon layui-icon-password"
+                                                   style="font-size: 24px"></i></label>
+                <div class="layui-input-inline">
+                  <input type="password" name="username" class="layui-input" placeholder="Enter your password"
+                         autocomplete="off" [(ngModel)]="password">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button class="layui-btn" (click)="onLoginButtonClicked()">Sign in</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

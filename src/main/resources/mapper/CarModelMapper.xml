@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//filnameDTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yclin.simplecarlease.mapper.CarModelMapper">
+
+    <resultMap id="CarModelVoResultMap" type="com.yclin.simplecarlease.ropo.CarModelVo"
+               extends="com.yclin.simplecarlease.mapper.BaseModelMapper.BaseModelResultMap">
+        <result column="name" property="name"/>
+        <result column="stock" property="stock"/>
+    </resultMap>
+
+    <select id="selectVoList" parameterType="com.yclin.simplecarlease.param.carmodel.SelectCarModelListParam"
+            resultMap="CarModelVoResultMap">
+        SELECT
+        <include refid="com.yclin.simplecarlease.mapper.BaseModelMapper.BaseModelColumns"/>
+        , name, IFNULL(t.stock, 0) AS stock FROM car_model c LEFT JOIN
+        (SELECT model_id, COUNT(1) AS stock FROM car WHERE is_deleted=0 AND is_under_lease=0 GROUP BY model_id)
+        AS t
+        ON c.id=t.model_id
+        WHERE 1=1
+        <if test="available != null">
+            <choose>
+                <when test="available">
+                    AND stock &gt; 0
+                </when>
+                <otherwise>
+                    AND (stock &lt;= 0 OR stock IS NULL)
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+
+</mapper>

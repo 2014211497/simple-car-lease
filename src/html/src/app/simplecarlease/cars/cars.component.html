@@ -1,0 +1,39 @@
+<div>
+  <div class="layui-tab">
+    <ul class="layui-tab-title">
+      <li class="layui-this">Car Model List</li>
+    </ul>
+    <div class="layui-tab-content">
+      <div class="layui-tab-item layui-show">
+        <div>
+          <table id="carModelTable" lay-filter="carModelTable"></table>
+          <div id="carModelPaging" lay-filter="carModelPaging"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="bookingCarLayer" style="display: none; padding-right: 60px; margin-top: 20px">
+  <div class="layui-form-item">
+    <label class="layui-form-label">CarModel</label>
+    <div class="layui-input-block">
+      <input id="car-model-name" type="text" name="carModel" disabled class="layui-input layui-disabled"
+             [(ngModel)]="selectedCarModelName">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">BeginTime</label>
+    <div class="layui-input-block">
+      <input id="begin-time" type="text" name="beginTime" class="layui-input"
+             [(ngModel)]="beginTimeStr" placeholder="yyyy-MM-dd HH:mm:ss">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">EndTime</label>
+    <div class="layui-input-block">
+      <input id="end-time" type="text" name="beginTime" class="layui-input"
+             [(ngModel)]="endTimeStr" placeholder="yyyy-MM-dd HH:mm:ss">
+    </div>
+  </div>
+</div>

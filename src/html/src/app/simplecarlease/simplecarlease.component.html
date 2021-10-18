@@ -1,0 +1,62 @@
+<div class="layui-layout layui-layout-admin" id="root-navigation">
+  <div class="layui-header">
+    <!--    <div class="layui-logo layui-hide-xs layui-bg-black">深圳办审计业务工作平台</div>-->
+    <!--    审计业务工作平台-->
+    <div style="font-size:20px; vertical-align:middle; color: #b3b2b2">
+      <span style="margin-top: 8px;">
+        Simple Car Lease
+      </span>
+    </div>
+
+
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item layui-hide layui-show-md-inline-block top-right-menu">
+        <a href="javascript:">
+          <img src="../../assets/default-head-portrait.jpeg" class="layui-nav-img" alt="">
+          {{nickname}}
+        </a>
+        <dl class="layui-nav-child">
+          <dd>
+            <a href="javascript:" (click)="navigate('/navigation/profile')">个人设置</a>
+          </dd>
+          <dd>
+            <a (click)="logout()">退出登录</a>
+          </dd>
+        </dl>
+      </li>
+    </ul>
+  </div>
+
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree" lay-filter="test">
+
+        <li class="layui-nav-item layui-this">
+          <a class="" href="javascript:" (click)="navigate('/simplecarlease/cars')">
+            <i
+              class="layui-icon layui-icon-component" style="margin-right: 20px"></i>
+            Cars
+          </a>
+        </li>
+
+        <li class="layui-nav-item">
+          <a class="" href="javascript:" (click)="navigate('/simplecarlease/orders')">
+            <i
+              class="layui-icon layui-icon-cart" style="margin-right: 20px"></i>
+            Orders
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="layui-body">
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="layui-footer" style="text-align: center">
+<!--    <p>主办单位：审计署驻深圳特派员办事处 | 运行维护单位： 增长引擎（北京）信息技术有限公司</p>-->
+  </div>
+</div>
+

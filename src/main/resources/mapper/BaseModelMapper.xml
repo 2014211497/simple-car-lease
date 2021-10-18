@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//filnameDTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yclin.simplecarlease.mapper.BaseModelMapper">
+    <resultMap id="BaseModelResultMap" type="com.yclin.simplecarlease.model.BaseModel">
+        <id column="id" property="id"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="updater_id" property="updaterId"/>
+        <result column="deleter_id" property="deleterId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <sql id="BaseModelInsertColumns">
+        id, creator_id, updater_id, deleter_id, create_time, update_time
+    </sql>
+
+    <sql id="BaseModelColumns">
+        <include refid="com.yclin.simplecarlease.mapper.BaseModelMapper.BaseModelInsertColumns"/>
+        , deleter_id, delete_time, is_deleted
+    </sql>
+
+    <sql id="BaseModelInsertProperties">
+        #{id}, #{creatorId}, #{updaterId}, #{deleterId}, #{createTime}, #{updateTime}
+    </sql>
+
+    <sql id="BaseModelProperties">
+        <include refid="com.yclin.simplecarlease.mapper.BaseModelMapper.BaseModelInsertProperties"/>
+        , #{deleterId}, #{deleteTime}, #{isDeleted}
+    </sql>
+
+    <sql id="SortSQL">
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+            <choose>
+                <when test="orderDesc">DESC</when>
+                <otherwise>ASC</otherwise>
+            </choose>
+        </if>
+    </sql>
+</mapper>

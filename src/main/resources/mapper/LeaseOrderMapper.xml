@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//filnameDTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yclin.simplecarlease.mapper.LeaseOrderMapper">
+
+    <resultMap id="LeaseOrderResultMap" type="com.yclin.simplecarlease.model.LeaseOrder"
+               extends="com.yclin.simplecarlease.mapper.BaseModelMapper.BaseModelResultMap">
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="is_finished" property="isFinished"/>
+        <result column="is_canceled" property="isCanceled"/>
+        <result column="car_id" property="carId"/>
+    </resultMap>
+
+    <resultMap id="LeaseOrderVoResultMap" type="com.yclin.simplecarlease.ropo.LeaseOrderVo"
+               extends="LeaseOrderResultMap">
+        <result column="car_number_plate" property="carNumberPlate"/>
+        <result column="car_model_id" property="carModelId"/>
+        <result column="car_model_name" property="carModelName"/>
+    </resultMap>
+
+    <select id="select" parameterType="com.yclin.simplecarlease.param.leaseorder.SelectLeaseOrderListParam"
+            resultMap="LeaseOrderResultMap">
+        SELECT
+        <include refid="com.yclin.simplecarlease.mapper.BaseModelMapper.BaseModelColumns"/>
+        , begin_time, end_time, is_finished, is_canceled, car_id
+        FROM lease_order WHERE is_deleted=0
+        <if test="creatorId != null">AND creator_id=#{creatorId}</if>
+        <if test="orderBy != null">
+            <include refid="com.yclin.simplecarlease.mapper.BaseModelMapper.SortSQL"/>
+        </if>
+    </select>
+
+    <select id="selectVoList" parameterType="com.yclin.simplecarlease.param.leaseorder.SelectLeaseOrderListParam"
+            resultMap="LeaseOrderVoResultMap">
+        SELECT * FROM (
+        SELECT
+        a.id, a.creator_id, a.create_time, a.updater_id, a.update_time, a.car_id, a.begin_time, a.end_time,
+        a.is_finished, a.is_canceled, b.number_plate AS car_number_plate, c.id AS car_model_id,
+        c.name AS car_model_name
+        FROM lease_order a
+        LEFT JOIN car b ON a.car_id=b.id
+        LEFT JOIN car_model c ON b.model_id=c.id
+        WHERE a.is_deleted=0
+        ) t WHERE 1=1
+        <if test="creatorId != null">AND creator_id=#{creatorId}</if>
+        <if test="orderBy != null">
+            <include refid="com.yclin.simplecarlease.mapper.BaseModelMapper.SortSQL"/>
+        </if>
+    </select>
+
+    <insert id="create" parameterType="com.yclin.simplecarlease.model.LeaseOrder">
+        INSERT INTO lease_order(
+        <include refid="com.yclin.simplecarlease.mapper.BaseModelMapper.BaseModelInsertColumns"/>
+        , begin_time, end_time, car_id
+        ) VALUES (
+        <include refid="com.yclin.simplecarlease.mapper.BaseModelMapper.BaseModelInsertProperties"/>
+        , #{beginTime}, #{endTime}, #{carId}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.yclin.simplecarlease.model.LeaseOrder">
+        UPDATE lease_order SET
+        <if test="isFinished != null">is_finished=#{isFinished},</if>
+        <if test="isCanceled != null">is_canceled=#{isCanceled},</if>
+        <if test="beginTime != null">begin_time=#{beginTime},</if>
+        <if test="endTime != null">end_time=#{endTime},</if>
+        updater_id=#{updaterId},
+        update_time=#{updateTime}
+        WHERE is_deleted=0 AND id=#{id}
+    </update>
+
+    <update id="finish" parameterType="java.lang.String">
+        UPDATE lease_order SET is_finished=1 WHERE is_deleted=0 AND is_finished=0 AND is_canceled=0 AND id=#{id}
+    </update>
+
+    <update id="cancel" parameterType="java.lang.String">
+        UPDATE lease_order SET is_canceled=1 WHERE is_deleted=0 AND is_canceled=0 AND is_finished=0 AND id=#{id}
+    </update>
+
+</mapper>
